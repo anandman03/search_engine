@@ -1,6 +1,8 @@
+#include <string>
 #include <vector>
+#include <unordered_set>
 
-namespace search_engine {
+namespace data_structure {
 
 class Node {
 private:
@@ -10,6 +12,8 @@ private:
 
 public:
     Node();
+    Node(const char& value);
+
     ~Node() = default;
 
     /* getters */

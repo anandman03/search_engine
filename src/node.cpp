@@ -1,8 +1,10 @@
 #include "node.h"
 
-namespace search_engine {
+namespace data_structure {
 
 Node::Node() : m_value('$'), m_is_end(false), m_branches(std::vector<Node*>(26, nullptr)) {}
+
+Node::Node(const char& value) : m_value(value), m_is_end(false), m_branches(std::vector<Node*>(26, nullptr)) {}
 
 char Node::get_value() const {
     return m_value;
@@ -17,7 +19,7 @@ void Node::mark_end() {
 }
 
 void Node::create_branch(const char& query_char) {
-    m_branches[query_char - 'a'] = new Node();
+    m_branches[query_char - 'a'] = new Node(query_char);
 }
 
 Node* Node::change_branch(const char& query_char) {

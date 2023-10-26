@@ -3,14 +3,15 @@
 #include <memory>
 #include <string>
 
-namespace search_engine {
+namespace data_structure {
 
 class Trie {
 public:
     Trie();
     ~Trie() = default;
 
-    void insert(const std::string& word);
+    void insert_word(const std::string& word);
+    bool search_word(const std::string& word) const;
 
 private:
     Node* m_root;

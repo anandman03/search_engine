@@ -1,6 +1,6 @@
-#include "trie.h"
-#include "file_reader.h"
-#include "measure_time.h"
+#include "../data_structure/trie.h"
+#include "../file_reader/file_reader.h"
+#include "../analytics/measure_time.h"
 
 #include <unordered_set>
 

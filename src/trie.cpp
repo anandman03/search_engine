@@ -19,7 +19,6 @@ void Trie::insert_word(const std::string& word) {
     }
 
     curr_node->mark_end();
-    std::cout << "[DEBUG]: added word " << word << std::endl;
 
     return;
 }

@@ -9,6 +9,7 @@ ADD_LIBRARY(SRC
     src/node.cpp
     src/trie.cpp
     src/file_reader.cpp
+    src/measure_time.cpp
     src/search_engine.cpp
 )
 target_link_libraries(${PROJECT_NAME} SRC)

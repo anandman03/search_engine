@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-#include <unordered_set>
+#include <unordered_map>
 
 namespace data_structure {
 
@@ -8,7 +8,7 @@ class Node {
 private:
     char m_value;
     bool m_is_end;
-    std::vector<Node*> m_branches;
+    std::unordered_map<char, Node*> m_branches;
 
 public:
     Node();

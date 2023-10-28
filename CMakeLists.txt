@@ -11,5 +11,6 @@ ADD_LIBRARY(SRC
     src/file_reader/file_reader.cpp
     src/analytics/measure_time.cpp
     src/search_engine/search_engine.cpp
+    src/search_engine/search_engine_with_threads.cpp
 )
 target_link_libraries(${PROJECT_NAME} SRC)

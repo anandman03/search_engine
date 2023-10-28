@@ -22,7 +22,7 @@ private:
     #define RECORD_START_TIME m_measure_time.start()
     #define RECORD_ELAPSED_TIME m_measure_time.elapsed_time()
 
-    void load_dataset() noexcept;
+    virtual void load_dataset() noexcept;
     void load_stopwords() noexcept;
 
 public:

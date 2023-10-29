@@ -4,7 +4,8 @@
 
 int main()
 {
-    search_engine::SearchEngine search;
+    int threads = 2;
+    search_engine::SearchEngine search(threads);
     std::cout << search.query_string("orphaned") << std::endl;
 
     return 0;

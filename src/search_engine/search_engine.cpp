@@ -2,18 +2,51 @@
 
 namespace search_engine {
 
-SearchEngine::SearchEngine() : m_trie(), m_file_reader() {
+SearchEngine::SearchEngine(const int& threads) : m_trie(), m_file_reader(), m_threads(threads) {
     RECORD_START_TIME; load_stopwords();
     load_dataset(); RECORD_ELAPSED_TIME;
 }
 
 void SearchEngine::load_dataset() noexcept {
-    for (const auto file_path : m_file_reader.get_files(SearchEngine::DATASET_PATH)) {
-        auto tokens = m_file_reader.get_tokens_from_file(file_path);
-        for (const auto& token : tokens) {
-            m_trie.insert_word(token);
-        }
+    std::vector<std::filesystem::path> files = m_file_reader.get_files(SearchEngine::DATASET_PATH);
+    const int& file_list_size = files.size();
+    if (!file_list_size) {
+        // info
+        return;
     }
+    std::cout << "[DEBUG]: total files: " << file_list_size << std::endl;
+    
+    std::function<void(int,int)> process_files = [&] (const int& start_idx, const int& end_idx) {
+        for (int index = start_idx ; index < end_idx ; ++index) {
+            for (const auto& token : m_file_reader.get_tokens_from_file(files[index])) {
+                populate_data_structure(token);
+            }
+        }
+        return;
+    };
+
+    int base_index = 0;
+    std::vector<std::thread> workers;
+    const int chunk_size = file_list_size / m_threads;
+    const int rem_chunk_size = file_list_size - (chunk_size * m_threads);
+
+    while (base_index + chunk_size <= file_list_size) {
+        workers.emplace_back(std::thread(process_files, base_index, base_index + chunk_size));
+        base_index += chunk_size;
+    }
+    if (rem_chunk_size) {
+        workers.emplace_back(std::thread(process_files, base_index, files.size()));
+    }
+
+    for (auto&& worker : workers) {
+        worker.join();
+    }
+    return;
+}
+
+void SearchEngine::populate_data_structure(const std::string& token) noexcept {
+    std::lock_guard<std::mutex> data_structure_guard(WRITE_LOCK);
+    m_trie.insert_word(token);
 }
 
 void SearchEngine::load_stopwords() noexcept {
@@ -29,7 +62,7 @@ void SearchEngine::load_stopwords() noexcept {
 }
 
 bool SearchEngine::query_string(const std::string& query_str) {
-    RECORD_START_TIME; auto res = m_trie.search_word(query_str); RECORD_ELAPSED_TIME;
+    RECORD_START_TIME; bool res = m_trie.search_word(query_str); RECORD_ELAPSED_TIME;
 
     return res;
 }

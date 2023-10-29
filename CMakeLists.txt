@@ -11,7 +11,5 @@ ADD_LIBRARY(SRC
     src/data_structure/trie.cpp
     src/file_reader/file_reader.cpp
     src/search_engine/search_engine.cpp
-    src/search_engine/search_engine_with_threads.cpp
-    src/thread_pool/thread_pool.cpp
 )
 target_link_libraries(${PROJECT_NAME} SRC)

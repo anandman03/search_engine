@@ -20,6 +20,7 @@ std::vector<std::filesystem::path> FileReader::get_files(std::string dir_path) c
 std::vector<std::string> FileReader::get_tokens_from_file(const std::filesystem::path& file_path) const {
     std::error_code err_code;
     if (std::filesystem::is_directory(file_path, err_code)) {
+        std::cout << "HERE" << std::endl;
         return {};
     }
     

@@ -10,7 +10,7 @@
 namespace search_engine {
 
 class SearchEngine {
-private:
+protected:
     data_structure::Trie m_trie;
     file_reader::FileReader m_file_reader;
     std::unordered_set<std::string> m_stopwords;

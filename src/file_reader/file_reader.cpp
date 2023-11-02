@@ -20,7 +20,6 @@ std::vector<std::filesystem::path> FileReader::get_files(std::string dir_path) c
 std::vector<std::string> FileReader::get_tokens_from_file(const std::filesystem::path& file_path) const {
     std::error_code err_code;
     if (std::filesystem::is_directory(file_path, err_code)) {
-        std::cout << "HERE" << std::endl;
         return {};
     }
     
@@ -31,12 +30,15 @@ std::vector<std::string> FileReader::get_tokens_from_file(const std::filesystem:
         std::cout << "[ERROR]: cannot open file: " << file_path << std::endl;
     }
 
-    std::cout << "[DEBUG]: processing file: " << file_path << std::endl;
+    analytics::FileProcessingStats::inc_files_processed(std::filesystem::file_size(file_path));
+
+    // std::cout << "[DEBUG]: processing file: " << file_path << std::endl;
 
     std::string line;
     std::vector<std::string> tokens;
     while (file_ob >> line) {
         tokens.push_back(line);
+        analytics::FileProcessingStats::inc_words_processed(line);
     }
     file_ob.close();
 

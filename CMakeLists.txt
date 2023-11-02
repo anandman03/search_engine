@@ -7,6 +7,7 @@ add_executable(${PROJECT_NAME} main.cpp)
 
 ADD_LIBRARY(SRC
     src/analytics/measure_time.cpp
+    src/analytics/file_processing.cpp
     src/data_structure/node.cpp
     src/data_structure/trie.cpp
     src/file_reader/file_reader.cpp

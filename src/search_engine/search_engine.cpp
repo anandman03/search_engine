@@ -14,7 +14,6 @@ void SearchEngine::load_dataset() noexcept {
         // info
         return;
     }
-    std::cout << "[DEBUG]: total files: " << file_list_size << std::endl;
     
     std::function<void(int,int)> process_files = [&] (const int& start_idx, const int& end_idx) {
         for (int index = start_idx ; index < end_idx ; ++index) {

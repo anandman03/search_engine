@@ -1,8 +1,9 @@
 #pragma once
 
+#include "../analytics/file_processing.h"
+#include "../analytics/measure_time.h"
 #include "../data_structure/trie.h"
 #include "../file_reader/file_reader.h"
-#include "../analytics/measure_time.h"
 
 #include <mutex>
 #include <thread>

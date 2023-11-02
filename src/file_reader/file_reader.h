@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../analytics/file_processing.h"
+
 #include <filesystem>
 #include <fstream>
 #include <sstream>

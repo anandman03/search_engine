@@ -5,6 +5,7 @@ namespace analytics {
 void FileProcessingStats::inc_words_processed(const std::string& word) noexcept {
     std::lock_guard<std::mutex> update_guard(FileProcessingStats::STAT_MUTEX);
     ++TOTAL_WORDS_PROCESSED;
+    LONGEST_WORD_PROCESSED = std::max(word.size(), LONGEST_WORD_PROCESSED);
 }
 
 void FileProcessingStats::inc_files_processed(const uint64_t& file_size) noexcept {

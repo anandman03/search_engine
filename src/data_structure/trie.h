@@ -3,6 +3,7 @@
 #include "node.h"
 
 #include <memory>
+#include <mutex>
 #include <string>
 
 namespace data_structure {
@@ -17,6 +18,8 @@ public:
 
 private:
     Node* m_root;
+
+    inline static std::mutex WRITE_LOCK;
 };
 
 };

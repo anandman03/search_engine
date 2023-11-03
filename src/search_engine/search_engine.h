@@ -31,7 +31,6 @@ protected:
 
     void load_dataset() noexcept;
     void load_stopwords() noexcept;
-    void populate_data_structure(const std::string& token) noexcept;
 
 public:
     SearchEngine(const int& threads);

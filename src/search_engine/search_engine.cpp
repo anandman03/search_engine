@@ -18,7 +18,7 @@ void SearchEngine::load_dataset() noexcept {
     std::function<void(int,int)> process_files = [&] (const int& start_idx, const int& end_idx) {
         for (int index = start_idx ; index < end_idx ; ++index) {
             for (const auto& token : m_file_reader.get_tokens_from_file(files[index])) {
-                populate_data_structure(token);
+                m_trie.insert_word(token);
             }
         }
         return;
@@ -41,11 +41,6 @@ void SearchEngine::load_dataset() noexcept {
         worker.join();
     }
     return;
-}
-
-void SearchEngine::populate_data_structure(const std::string& token) noexcept {
-    std::lock_guard<std::mutex> data_structure_guard(WRITE_LOCK);
-    m_trie.insert_word(token);
 }
 
 void SearchEngine::load_stopwords() noexcept {

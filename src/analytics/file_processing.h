@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <algorithm>
 #include <mutex>
 #include <string>
 #include <sstream>

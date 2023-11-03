@@ -7,8 +7,9 @@ namespace data_structure {
 Trie::Trie() : m_root(new Node()) {}
 
 void Trie::insert_word(const std::string& word) {
-    Node* curr_node = m_root;
+    std::lock_guard<std::mutex> data_structure_guard(WRITE_LOCK);
 
+    Node* curr_node = m_root;
     for (auto curr_char : word) {
         curr_char = tolower(curr_char);
         if (!curr_node->check_if_branch_exists(curr_char)) {

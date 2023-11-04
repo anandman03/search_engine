@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../analytics/file_processing.h"
+#include "../logger/logger.h"
 
 #include <filesystem>
 #include <fstream>

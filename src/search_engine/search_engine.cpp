@@ -11,7 +11,7 @@ void SearchEngine::load_dataset() noexcept {
     std::vector<std::filesystem::path> files = m_file_reader.get_files(SearchEngine::DATASET_PATH);
     const int& file_list_size = files.size();
     if (!file_list_size) {
-        // info
+        logger::LOG_ERROR("No data file present at path[" + DATASET_PATH + "]");
         return;
     }
     
@@ -21,7 +21,6 @@ void SearchEngine::load_dataset() noexcept {
                 m_trie.insert_word(token);
             }
         }
-        return;
     };
 
     int base_index = 0;
@@ -40,7 +39,6 @@ void SearchEngine::load_dataset() noexcept {
     for (auto&& worker : workers) {
         worker.join();
     }
-    return;
 }
 
 void SearchEngine::load_stopwords() noexcept {
@@ -57,7 +55,6 @@ void SearchEngine::load_stopwords() noexcept {
 
 bool SearchEngine::query_string(const std::string& query_str) {
     RECORD_START_TIME; bool res = m_trie.search_word(query_str); RECORD_ELAPSED_TIME;
-
     return res;
 }
 

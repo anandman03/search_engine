@@ -1,8 +1,11 @@
 #pragma once
 
+#include "../logger/logger.h"
+
 #include <chrono>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 
 namespace metrics {
 

@@ -31,7 +31,7 @@ std::vector<std::string> FileReader::get_tokens_from_file(const std::filesystem:
         logger::LOG_ERROR("cannot open file [" + file_path.string() + "]");
         return {};
     }
-    logger::LOG_INFO("processing file [" + file_path.string() + "]");
+    logger::LOG_DEBUG("processing file [" + file_path.string() + "]");
 
     analytics::FileProcessingStats::inc_files_processed(std::filesystem::file_size(file_path));
 

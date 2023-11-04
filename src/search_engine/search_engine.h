@@ -11,9 +11,10 @@
 #include <sstream>
 #include <unordered_set>
 
-// TODO: add complex queries
+// TODO: add exact string matching like "exact words"
 // TODO: substring matching
 // TODO: result ranking algorithm
+// TODO: cache previous queries
 
 namespace search_engine {
 

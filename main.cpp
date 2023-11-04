@@ -9,7 +9,7 @@ int main()
 
     std::cout << analytics::FileProcessingStats::generate_stats() << std::endl;
 
-    std::cout << search.query_string("orphaned") << std::endl;
+    std::cout << search.query_string("orphaned's  child") << std::endl;
 
     return 0;
 }

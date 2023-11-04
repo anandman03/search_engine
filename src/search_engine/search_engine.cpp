@@ -53,8 +53,40 @@ void SearchEngine::load_stopwords() noexcept {
     }
 }
 
+std::vector<std::string> SearchEngine::filter_stopwords(const std::string& query_str) noexcept {
+    std::string curr_str;
+    std::vector<std::string> refined_query;
+    
+    std::function<bool(std::string)> is_query_token_valid = [&] (const std::string& str) {
+        return (!curr_str.empty() && !m_stopwords.count(curr_str));
+    };
+    
+    for (const char& curr_char : query_str) {
+        if (curr_char == ' ') {
+            if (is_query_token_valid(curr_str)) {
+                refined_query.emplace_back(curr_str);
+            }
+            curr_str.clear();
+        }
+        else {
+            curr_str += curr_char;
+        }
+    }
+    if (is_query_token_valid(curr_str)) {
+        refined_query.emplace_back(curr_str);
+    }
+
+    return refined_query;
+}
+
 bool SearchEngine::query_string(const std::string& query_str) {
-    RECORD_START_TIME; bool res = m_trie.search_word(query_str); RECORD_ELAPSED_TIME;
+    RECORD_START_TIME;
+    auto refined_query = filter_stopwords(query_str);
+    for (const auto query : refined_query) {
+        logger::LOG_WARN(query);
+    }
+
+    bool res = m_trie.search_word(query_str); RECORD_ELAPSED_TIME;
     return res;
 }
 

@@ -8,10 +8,12 @@
 
 #include <mutex>
 #include <thread>
+#include <sstream>
 #include <unordered_set>
 
 // TODO: add complex queries
-// TODO: add multi-threading to file reading
+// TODO: substring matching
+// TODO: result ranking algorithm
 
 namespace search_engine {
 
@@ -32,6 +34,8 @@ protected:
 
     void load_dataset() noexcept;
     void load_stopwords() noexcept;
+
+    std::vector<std::string> filter_stopwords(const std::string& query_str) noexcept;
 
 public:
     SearchEngine(const int& threads);

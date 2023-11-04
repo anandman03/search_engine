@@ -81,13 +81,14 @@ std::vector<std::string> SearchEngine::filter_stopwords(const std::string& query
 
 bool SearchEngine::query_string(const std::string& query_str) {
     RECORD_START_TIME;
-    auto refined_query = filter_stopwords(query_str);
-    for (const auto query : refined_query) {
-        logger::LOG_WARN(query);
+    bool query_res = true;
+    for (const auto& token : filter_stopwords(query_str)) {
+        logger::LOG_WARN(token);
+        query_res = query_res && m_trie.search_word(token);
     }
-
-    bool res = m_trie.search_word(query_str); RECORD_ELAPSED_TIME;
-    return res;
+    RECORD_ELAPSED_TIME;
+    
+    return query_res;
 }
 
 };

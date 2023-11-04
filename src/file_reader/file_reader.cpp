@@ -17,7 +17,7 @@ std::vector<std::filesystem::path> FileReader::get_files(std::string dir_path) c
     return result;
 }
 
-std::vector<std::string> FileReader::get_tokens_from_file(const std::filesystem::path& file_path) const {
+std::vector<std::string> FileReader::get_tokens_from_file(const std::filesystem::path& file_path) {
     std::error_code err_code;
     if (std::filesystem::is_directory(file_path, err_code)) {
         logger::LOG_ERROR("given path is a directory [" + file_path.string() + "]");
@@ -38,12 +38,19 @@ std::vector<std::string> FileReader::get_tokens_from_file(const std::filesystem:
     std::string line;
     std::vector<std::string> tokens;
     while (file_ob >> line) {
-        tokens.push_back(line);
+        tokens.push_back(lower_char(line));
         analytics::FileProcessingStats::inc_words_processed(line);
     }
     file_ob.close();
 
     return tokens;
+}
+
+std::string FileReader::lower_char(std::string line) noexcept {
+    for (int index = 0 ; index < line.size() ; ++index) {
+        line[index] = std::isalpha(line[index]) ? std::tolower(line[index]) : line[index];
+    }
+    return line;
 }
 
 };

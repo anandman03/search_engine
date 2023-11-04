@@ -69,7 +69,7 @@ std::vector<std::string> SearchEngine::filter_stopwords(const std::string& query
             curr_str.clear();
         }
         else {
-            curr_str += curr_char;
+            curr_str += std::tolower(curr_char);
         }
     }
     if (is_query_token_valid(curr_str)) {

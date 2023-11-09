@@ -11,6 +11,7 @@ ADD_LIBRARY(SRC
     src/data_structure/node.cpp
     src/data_structure/trie.cpp
     src/file_reader/file_reader.cpp
+    src/global_store/cache.cpp
     src/logger/logger.cpp
     src/search_engine/search_engine.cpp
 )

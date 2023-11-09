@@ -4,13 +4,19 @@
 
 namespace file_reader {
 
-FileReader::FileReader() : m_folder_path(std::filesystem::current_path()) {}
+FileReader::FileReader() : m_folder_path(std::filesystem::current_path()) {
+    m_global_cache = global_store::Cache::get_instance();
+}
 
 std::vector<std::filesystem::path> FileReader::get_files(std::string dir_path) const {
     std::vector<std::filesystem::path> result;
     auto curr_path = m_folder_path / std::filesystem::path(dir_path);
 
     for (const auto& entry : std::filesystem::directory_iterator(curr_path)) {
+        if (std::filesystem::is_directory(entry)) {
+            continue;
+        }
+        m_global_cache->add_file(entry);
         result.emplace_back(entry.path());
     }
 

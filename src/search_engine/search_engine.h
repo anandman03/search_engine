@@ -4,16 +4,16 @@
 #include "../analytics/measure_time.h"
 #include "../data_structure/trie.h"
 #include "../file_reader/file_reader.h"
+#include "../global_store/cache.h"
 #include "../logger/logger.h"
 
-#include <mutex>
 #include <thread>
 #include <sstream>
 #include <unordered_set>
 
+// TODO: result ranking algorithm
 // TODO: add exact string matching like "exact words"
 // TODO: substring matching
-// TODO: result ranking algorithm
 // TODO: cache previous queries
 
 namespace search_engine {
@@ -25,7 +25,8 @@ protected:
     file_reader::FileReader m_file_reader;
     std::unordered_set<std::string> m_stopwords;
 
-    inline static std::mutex WRITE_LOCK;
+    global_store::Cache* m_global_cache;
+
     inline static const std::string DATASET_PATH = "data/dataset/";
     inline static const std::string STOPWORDS_PATH = "data/";
 

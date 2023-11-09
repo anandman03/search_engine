@@ -3,8 +3,10 @@
 namespace search_engine {
 
 SearchEngine::SearchEngine(const int& threads) : m_trie(), m_file_reader(), m_threads(threads) {
-    RECORD_START_TIME; load_stopwords();
-    load_dataset(); RECORD_ELAPSED_TIME;
+    RECORD_START_TIME; 
+    m_global_cache = global_store::Cache::get_instance();
+    load_stopwords(); load_dataset(); 
+    RECORD_ELAPSED_TIME;
 }
 
 void SearchEngine::load_dataset() noexcept {
@@ -84,6 +86,7 @@ bool SearchEngine::query_string(const std::string& query_str) {
     bool query_res = true;
     for (const auto& token : filter_stopwords(query_str)) {
         logger::LOG_WARN(token);
+        m_global_cache->add_token(token);
         query_res = query_res && m_trie.search_word(token);
     }
     RECORD_ELAPSED_TIME;

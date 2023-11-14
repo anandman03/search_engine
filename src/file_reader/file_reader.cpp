@@ -9,7 +9,6 @@ FileReader::FileReader() : m_folder_path(std::filesystem::current_path()) {
 }
 
 std::vector<std::filesystem::path> FileReader::get_files(std::string dir_path) const {
-    std::vector<std::filesystem::path> result;
     auto curr_path = m_folder_path / std::filesystem::path(dir_path);
 
     for (const auto& entry : std::filesystem::directory_iterator(curr_path)) {
@@ -17,10 +16,9 @@ std::vector<std::filesystem::path> FileReader::get_files(std::string dir_path) c
             continue;
         }
         m_global_cache->add_file(entry);
-        result.emplace_back(entry.path());
     }
 
-    return result;
+    return m_global_cache->get_file_paths();
 }
 
 std::vector<std::string> FileReader::get_tokens_from_file(const std::filesystem::path& file_path) {

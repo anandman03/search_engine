@@ -12,17 +12,14 @@
 #include <sstream>
 #include <unordered_set>
 
-// TODO: result ranking algorithm
 // TODO: add exact string matching like "exact words"
 // TODO: substring matching
-// TODO: cache previous queries
 
 namespace search_engine {
 
 class SearchEngine {
 protected:
     int m_threads;
-    algorithm::UrlRanking m_ranking_algo;
     data_structure::Trie m_trie;
     file_reader::FileReader m_file_reader;
     global_store::Cache* m_global_cache;

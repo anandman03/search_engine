@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -11,6 +12,7 @@ private:
     char m_value;
     bool m_is_end;
     std::unordered_map<char, Node*> m_branches;
+    std::vector<std::filesystem::path> m_files_included;
 
 public:
     Node();
@@ -21,9 +23,11 @@ public:
     /* getters */
     char get_value() const;
     bool check_end() const;
+    std::vector<std::filesystem::path> get_files_included() const;
 
     /* setters */
     void mark_end();
+    void add_included_file(const std::filesystem::path& file_path);
 
     /* methods */
     void create_branch(const char& query_char);

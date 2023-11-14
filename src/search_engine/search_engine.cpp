@@ -20,7 +20,7 @@ void SearchEngine::load_dataset() noexcept {
     std::function<void(int,int)> process_files = [&] (const int& start_idx, const int& end_idx) {
         for (int index = start_idx ; index < end_idx ; ++index) {
             for (const auto& token : m_file_reader.get_tokens_from_file(files[index])) {
-                m_trie.insert_word(token);
+                m_trie.insert_word(token, files[index]);
             }
         }
     };
@@ -66,6 +66,7 @@ std::vector<std::string> SearchEngine::filter_stopwords(const std::string& query
     for (const char& curr_char : query_str) {
         if (curr_char == ' ') {
             if (is_query_token_valid(curr_str)) {
+                m_global_cache->add_token(curr_str);
                 refined_query.emplace_back(curr_str);
             }
             curr_str.clear();
@@ -75,6 +76,7 @@ std::vector<std::string> SearchEngine::filter_stopwords(const std::string& query
         }
     }
     if (is_query_token_valid(curr_str)) {
+        m_global_cache->add_token(curr_str);
         refined_query.emplace_back(curr_str);
     }
 
@@ -83,12 +85,22 @@ std::vector<std::string> SearchEngine::filter_stopwords(const std::string& query
 
 bool SearchEngine::query_string(const std::string& query_str) {
     RECORD_START_TIME;
+    
+    m_global_cache->clear_tokens();
+    auto filtered_query = filter_stopwords(query_str);
+
+    algorithm::UrlRanking m_ranking_algo;
+    m_ranking_algo.set_token_weight(1.0L / (long double) filtered_query.size());
+
     bool query_res = true;
-    for (const auto& token : filter_stopwords(query_str)) {
-        logger::LOG_WARN(token);
-        m_global_cache->add_token(token);
-        query_res = query_res && m_trie.search_word(token);
+    for (const auto& token : filtered_query) {
+        auto [result, file_list] = m_trie.search_word(token);
+
+        query_res &= result;
+        m_ranking_algo.compute_ranks(token, file_list);
     }
+    m_ranking_algo.finalize_ranks();
+
     RECORD_ELAPSED_TIME;
     
     return query_res;

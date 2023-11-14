@@ -27,7 +27,7 @@ size_t Cache::get_file_index(const std::filesystem::path& file_path) noexcept {
 }
 
 std::string Cache::get_file_name(const size_t& file_index) noexcept {
-    return file_index < m_files.size() ? m_files[file_index].c_str() : "";
+    return file_index < m_files.size() ? m_files[file_index].string() : "";
 }
 
 std::vector<std::filesystem::path> Cache::get_file_paths() noexcept {
@@ -36,6 +36,11 @@ std::vector<std::filesystem::path> Cache::get_file_paths() noexcept {
 
 void Cache::add_token(const std::string& token) noexcept {
     m_token_list[token] = m_token_count++;
+}
+
+void Cache::clear_tokens() noexcept {
+    m_token_count = 0;
+    m_token_list.clear();
 }
 
 size_t Cache::get_token_index(const std::string& token) noexcept {

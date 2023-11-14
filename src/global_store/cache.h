@@ -30,6 +30,7 @@ public:
     std::string get_file_name(const size_t& file_index) noexcept;
     std::vector<std::filesystem::path> get_file_paths() noexcept;
 
+    void clear_tokens() noexcept;
     void add_token(const std::string& token) noexcept;
     size_t get_token_index(const std::string& token) noexcept;
 };

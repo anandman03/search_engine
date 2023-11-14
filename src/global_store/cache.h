@@ -28,6 +28,7 @@ public:
     void add_file(const std::filesystem::path& file_path) noexcept;
     size_t get_file_index(const std::filesystem::path& file_path) noexcept;
     std::string get_file_name(const size_t& file_index) noexcept;
+    std::vector<std::filesystem::path> get_file_paths() noexcept;
 
     void add_token(const std::string& token) noexcept;
     size_t get_token_index(const std::string& token) noexcept;

@@ -6,6 +6,7 @@ set (CMAKE_CXX_STANDARD 20)
 add_executable(${PROJECT_NAME} main.cpp)
 
 ADD_LIBRARY(SRC
+    src/algorithm/url_ranking.cpp
     src/analytics/measure_time.cpp
     src/analytics/file_processing.cpp
     src/data_structure/node.cpp

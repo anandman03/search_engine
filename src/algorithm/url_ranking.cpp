@@ -42,7 +42,8 @@ std::string UrlRanking::finalize_ranks() noexcept {
     for (const auto& x : m_ranking_result) {
         std::cout << x.first << ' ' << x.second << '\n';
     }
-    return;
+    
+    return "";
 }
 
 };

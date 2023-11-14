@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../algorithm/url_ranking.h"
 #include "../analytics/file_processing.h"
 #include "../analytics/measure_time.h"
 #include "../data_structure/trie.h"
@@ -21,11 +22,12 @@ namespace search_engine {
 class SearchEngine {
 protected:
     int m_threads;
+    algorithm::UrlRanking m_ranking_algo;
     data_structure::Trie m_trie;
     file_reader::FileReader m_file_reader;
-    std::unordered_set<std::string> m_stopwords;
-
     global_store::Cache* m_global_cache;
+
+    std::unordered_set<std::string> m_stopwords;
 
     inline static const std::string DATASET_PATH = "data/dataset/";
     inline static const std::string STOPWORDS_PATH = "data/";

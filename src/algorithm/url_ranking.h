@@ -15,7 +15,7 @@ class UrlRanking {
 private:
     uint64_t m_token_weight;
     std::vector<std::vector<uint32_t>> m_effect_grid;
-    std::unordered_map<std::filesystem::path, uint64_t> m_ranking_result;
+    std::unordered_map<std::string, uint64_t> m_ranking_result;
 
     global_store::Cache* m_global_cache;
 

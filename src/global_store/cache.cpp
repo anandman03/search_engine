@@ -30,6 +30,10 @@ std::string Cache::get_file_name(const size_t& file_index) noexcept {
     return file_index < m_files.size() ? m_files[file_index].c_str() : "";
 }
 
+std::vector<std::filesystem::path> Cache::get_file_paths() noexcept {
+    return m_files;
+}
+
 void Cache::add_token(const std::string& token) noexcept {
     m_token_list[token] = m_token_count++;
 }

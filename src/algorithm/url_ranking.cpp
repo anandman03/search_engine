@@ -22,6 +22,8 @@ void UrlRanking::compute_ranks(const std::string& token, const std::vector<std::
 }
 
 std::string UrlRanking::finalize_ranks() noexcept {
+    data_structure::Heap ranking_result;
+
     for (int r_index = 0 ; r_index < m_grid_rows ; ++r_index) {
         if (!m_effect_grid[r_index][m_grid_cols - 1]) {
             continue;
@@ -37,21 +39,12 @@ std::string UrlRanking::finalize_ranks() noexcept {
         }
 
         if (score) {
-            auto file_name = m_global_cache->get_file_name(r_index);
-            m_ranking_result[file_name] = score + (complete_occurence * score);
+            score += (complete_occurence * score);
+            ranking_result.add_element(score, m_global_cache->get_file_name(r_index));
         }
     }
 
-    int count = 0;
-    for (const auto& x : m_ranking_result) {
-        if (count == 5) {
-            break;
-        }
-        std::cout << x.first << ' ' << x.second << '\n';
-        ++count;
-    }
-    
-    return "";
+    return ranking_result.to_string();
 }
 
 };

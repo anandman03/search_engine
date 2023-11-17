@@ -1,11 +1,11 @@
 #pragma once
 
+#include "../data_structure/heap.h"
 #include "../global_store/cache.h"
 #include "../logger/logger.h"
 
 #include <algorithm>
 #include <filesystem>
-#include <map>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -18,7 +18,6 @@ private:
     long double m_token_weight;
     size_t m_grid_rows, m_grid_cols;
     std::vector<std::vector<uint32_t>> m_effect_grid;
-    std::unordered_map<std::string, long double> m_ranking_result;
 
     global_store::Cache* m_global_cache;
 

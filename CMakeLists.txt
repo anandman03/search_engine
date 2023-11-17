@@ -9,6 +9,7 @@ ADD_LIBRARY(SRC
     src/algorithm/url_ranking.cpp
     src/analytics/measure_time.cpp
     src/analytics/file_processing.cpp
+    src/data_structure/heap.cpp
     src/data_structure/node.cpp
     src/data_structure/trie.cpp
     src/file_reader/file_reader.cpp

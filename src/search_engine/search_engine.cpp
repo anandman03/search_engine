@@ -99,7 +99,7 @@ bool SearchEngine::query_string(const std::string& query_str) {
         query_res &= result;
         m_ranking_algo.compute_ranks(token, file_list);
     }
-    m_ranking_algo.finalize_ranks();
+    if (query_res) logger::LOG_INFO(m_ranking_algo.finalize_ranks());
 
     RECORD_ELAPSED_TIME;
     

@@ -4,7 +4,9 @@
 
 namespace data_structure {
 
-Trie::Trie() : m_root(new Node()) {}
+Trie::Trie() : m_root(new Node()), m_score(0), m_query_str() {
+    m_ranking_algo = algorithm::UrlRanking::get_instance();
+}
 
 void Trie::insert_word(const std::string& word, const std::filesystem::path& file_path) {
     std::lock_guard<std::mutex> data_structure_guard(WRITE_LOCK);
@@ -25,18 +27,43 @@ void Trie::insert_word(const std::string& word, const std::filesystem::path& fil
     return;
 }
 
-std::tuple<bool, std::vector<std::filesystem::path>> Trie::search_word(const std::string& word) const {
+void Trie::search_word(const std::string& word) {
+    m_score = 1;
+    m_query_str = word;
     Node* curr_node = m_root;
 
+    size_t count = 0;
     for (auto& curr_char : word) {
         if (!curr_node->check_if_branch_exists(curr_char)) {
-            return std::tuple(false, std::vector<std::filesystem::path>());
+            m_score = (double) count / word.size();
+            break;
         }
 
+        ++count;
         curr_node = curr_node->change_branch(curr_char);
     }
+    recursive_search(curr_node);
+}
 
-    return std::tuple(curr_node->check_end(), curr_node->get_files_included());
+void Trie::recursive_search(Node* curr_node) const {
+    if (!curr_node) {
+        return;
+    }
+
+    if (curr_node->check_end()) {
+        if (m_score == 1.0) {
+            m_ranking_algo->compute_ranks(m_query_str, curr_node->get_files_included());
+        }
+        else m_ranking_algo->update_partials(m_score);
+    }
+
+    if (curr_node->get_branches().empty()) {
+        return;
+    }
+
+    for (const auto& branch : curr_node->get_branches()) {
+        recursive_search(branch.second);
+    }
 }
 
 };

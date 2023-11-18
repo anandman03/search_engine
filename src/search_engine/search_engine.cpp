@@ -5,6 +5,7 @@ namespace search_engine {
 SearchEngine::SearchEngine(const int& threads) : m_trie(), m_file_reader(), m_threads(threads) {
     RECORD_START_TIME; 
     m_global_cache = global_store::Cache::get_instance();
+    m_ranking_algo = algorithm::UrlRanking::get_instance();
     load_stopwords(); load_dataset(); 
     RECORD_ELAPSED_TIME;
 }
@@ -83,27 +84,21 @@ std::vector<std::string> SearchEngine::filter_stopwords(const std::string& query
     return refined_query;
 }
 
-bool SearchEngine::query_string(const std::string& query_str) {
+void SearchEngine::query_string(const std::string& query_str) {
     RECORD_START_TIME;
     
     m_global_cache->clear_tokens();
     auto filtered_query = filter_stopwords(query_str);
 
-    algorithm::UrlRanking m_ranking_algo;
-    m_ranking_algo.set_token_weight(1.0L / (long double) filtered_query.size());
+    m_ranking_algo->refresh();
+    m_ranking_algo->set_token_weight(1.0L / (long double) filtered_query.size());
 
-    bool query_res = true;
     for (const auto& token : filtered_query) {
-        auto [result, file_list] = m_trie.search_word(token);
-
-        query_res &= result;
-        m_ranking_algo.compute_ranks(token, file_list);
+        m_trie.search_word(token);
     }
-    if (query_res) logger::LOG_INFO(m_ranking_algo.finalize_ranks());
+    logger::LOG_INFO(m_ranking_algo->finalize_ranks());
 
     RECORD_ELAPSED_TIME;
-    
-    return query_res;
 }
 
 };

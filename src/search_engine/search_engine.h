@@ -13,7 +13,7 @@
 #include <unordered_set>
 
 // TODO: add exact string matching like "exact words"
-// TODO: substring matching
+// TODO: final optimization
 
 namespace search_engine {
 
@@ -23,6 +23,7 @@ protected:
     data_structure::Trie m_trie;
     file_reader::FileReader m_file_reader;
     global_store::Cache* m_global_cache;
+    algorithm::UrlRanking* m_ranking_algo;
 
     std::unordered_set<std::string> m_stopwords;
 
@@ -42,7 +43,7 @@ public:
     SearchEngine(const int& threads);
     ~SearchEngine() = default;
 
-    bool query_string(const std::string& query_str);
+    void query_string(const std::string& query_str);
 };
 
 };

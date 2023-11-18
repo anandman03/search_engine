@@ -23,6 +23,7 @@ public:
     /* getters */
     char get_value() const;
     bool check_end() const;
+    std::unordered_map<char, Node*> get_branches() const;
     std::vector<std::filesystem::path> get_files_included() const;
 
     /* setters */

@@ -14,6 +14,10 @@ bool Node::check_end() const {
     return m_is_end;
 }
 
+std::unordered_map<char, Node*> Node::get_branches() const {
+    return m_branches;
+}
+
 std::vector<std::filesystem::path> Node::get_files_included() const {
     return m_files_included;
 }

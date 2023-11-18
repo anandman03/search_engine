@@ -9,9 +9,9 @@ int main()
 
     std::cout << analytics::FileProcessingStats::generate_stats() << std::endl;
 
-    std::cout << search.query_string("orphaned") << std::endl;
-    std::cout << search.query_string("orphaned's  child") << std::endl;
-    std::cout << search.query_string("Westminster Dog Show") << std::endl;
+    search.query_string("orphaned");
+    search.query_string("orphaned's  child");
+    search.query_string("Westminster Dog Show");
 
     return 0;
 }

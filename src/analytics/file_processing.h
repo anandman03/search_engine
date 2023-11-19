@@ -17,6 +17,9 @@ private:
     inline static uint32_t LONGEST_WORD_PROCESSED = 0;
 
     FileProcessingStats() = default;
+    FileProcessingStats(const FileProcessingStats&) = delete;
+
+    void operator = (const FileProcessingStats&) = delete;
 
 public:
     ~FileProcessingStats() = default;

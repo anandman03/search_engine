@@ -12,9 +12,6 @@
 #include <sstream>
 #include <unordered_set>
 
-// TODO: add exact string matching like "exact words"
-// TODO: final optimization
-
 namespace search_engine {
 
 class SearchEngine {
